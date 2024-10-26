@@ -64,6 +64,8 @@
   </dependencies>
 
   <build>
+    <finalName>pokedex</finalName>
+
     <pluginManagement>
       <plugins>
         <plugin>
