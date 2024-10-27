@@ -5,5 +5,6 @@ services:
     runtime: docker
     repo: https://github.com/Luan-Vn4/aplicacao-servlet-simples
     branch: main
+    rootDir: .
     dockerfilePath: ./docker/Dockerfile-application
     autoDeploy: false
