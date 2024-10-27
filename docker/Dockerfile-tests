@@ -1,0 +1,10 @@
+FROM maven:3.9.9 AS build
+
+COPY ../src /app/src
+COPY ../pom.xml /app/pom.xml
+
+WORKDIR /app
+
+RUN mvn install -DskipTests
+
+CMD ["mvn", "test"]
