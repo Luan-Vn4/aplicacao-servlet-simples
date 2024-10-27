@@ -1,8 +1,11 @@
 services:
+
   server:
+    container_name: pokedex-container
     build:
       context: .
       dockerfile: docker/Dockerfile
     image: luanvn4/pokedex:1.0
     ports:
-      - 8090:8090
+      - 8090:8080
+
