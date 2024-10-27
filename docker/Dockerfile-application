@@ -1,9 +1,14 @@
 FROM maven:3.9.9 AS build
 
-COPY ../src /app/src
+WORKDIR /app
+
 COPY ../pom.xml /app/pom.xml
 
-WORKDIR /app
+# Baixando as dependências previamente, é possível aproveitar o cache do docker
+# Ele só irá baixar elas novamente se o pom.xml for alterado
+RUN mvn dependency:go-offline
+
+COPY ../src /app/src
 
 RUN mvn clean package
 
