@@ -19,5 +19,3 @@ services:
       context: .
       dockerfile: docker/Dockerfile-tests
     image: luanvn4/pokedex-tests:1.0
-
-
