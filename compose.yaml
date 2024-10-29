@@ -4,6 +4,10 @@ services:
     container_name: pokedex-application
     profiles:
       - 'dev'
+    depends_on: [postgres]
+    environment:
+      DB_URL: http://localhost:5432/pokedex
+      SCHEMA_URL: /app/src/main/resources/db/V1__init.sql
     build:
       context: .
       dockerfile: docker/Dockerfile-application
@@ -13,9 +17,34 @@ services:
 
   tests:
     container_name: pokedex-tests
-    profiles:
-      - 'test'
     build:
       context: .
       dockerfile: docker/Dockerfile-tests
     image: luanvn4/pokedex-tests:1.0
+
+  flyway:
+    container_name: pokedex-flyway-migrations
+    image: flyway/flyway:10
+    depends_on: [postgres]
+    environment:
+      FLYWAY_URL: ${DB_URL}
+      FLYWAY_USER: ${DB_USER}
+      FLYWAY_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - ./src/main/resources/migrations:/flyway/sql
+    command: -baselineOnMigrate=true migrate
+
+  postgres:
+    container_name: pokedex-database
+    image: postgres:16
+    environment:
+      POSTGRES_USERNAME: postgres
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: pokedex
+    volumes:
+      - pokedex_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  pokedex_data:

@@ -22,6 +22,7 @@ LABEL org.opencontainers.image.authors="luanvilaca1@gmail.com" \
 
 ENV CATALINA_HOME=/usr/local/tomcat
 
+COPY --from=build /app/src/main/resources/db/init.sql /app/src/main/resources/db/V1__init.sql
 COPY --from=build /app/target/pokedex.war $CATALINA_HOME/webapps/pokedex.war
 
 RUN mv webapps.dist/* webapps/ && \
